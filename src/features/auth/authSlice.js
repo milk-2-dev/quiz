@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
+const API_KEY = process.env.REACT_APP_AUTH_API_KEY
+
 const initialState = {
   token: null,
   isAuthenticated: false,
@@ -60,7 +62,7 @@ export const signIn = createAsyncThunk(
   async (userData, { rejectWithValue, dispatch }) => {
     try {
       const response = await axios.post(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyChFI8iWYY1kYXKRemHXU4SZ8rqRv9V2DM',
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`,
         userData
       )
 
@@ -79,7 +81,7 @@ export const signUp = createAsyncThunk(
   async (userData, { rejectWithValue, dispatch }) => {
     try {
       const response = await axios.post(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyChFI8iWYY1kYXKRemHXU4SZ8rqRv9V2DM',
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
         userData
       )
 
