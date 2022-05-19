@@ -39,7 +39,7 @@ export const autoLogin = createAsyncThunk(
   'auth/autoLogin',
   (_, { rejectWithValue, dispatch }) => {
     const token = localStorage.getItem('token')
-    debugger
+
     if (!token) {
       dispatch(logout())
     } else {

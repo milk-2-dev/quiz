@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { logout } from '../../features/auth/authSlice'
 
 const Logout = () => {
@@ -8,11 +8,7 @@ const Logout = () => {
   useEffect(() => {
     dispatch(logout())
   })
-  return (
-    <Routes>
-      <Route path='*' element={<Navigate to='/' replace />} />
-    </Routes>
-  )
+  return <Navigate to='/' replace />
 }
 
 export default Logout
