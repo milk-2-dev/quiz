@@ -8,6 +8,7 @@ import Logout from './components/Logout/Logout'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { autoLogin } from './features/auth/authSlice'
+import './sassStyles/index.scss'
 
 function App() {
   const auth = useSelector((state) => state.auth)
@@ -20,20 +21,18 @@ function App() {
   let routes = (
     <Routes>
       <Route path='/auth' element={<Auth />} />
-      <Route path='/quiz/:id' element={<Quiz />} />
-      <Route path='/' element={<QuizList />} />
-      <Route path='*' element={<Navigate to='/' replace />} />
+      <Route path='/*' element={<Navigate to='/auth' replace />} />
     </Routes>
   )
 
   if (auth.isAuthenticated) {
     routes = (
       <Routes>
+        <Route path='/' element={<QuizList />} />
         <Route path='/quiz-creator' element={<QuizCreator />} />
         <Route path='/quiz/:id' element={<Quiz />} />
-        <Route path='/' element={<QuizList />} />
-        <Route path='/Logout/*' element={<Logout />} />
-        <Route path='*' element={<Navigate to='/' replace />} />
+        <Route path='/logout' element={<Logout />} />
+        <Route path='/*' element={<Navigate to='/' replace />} />
       </Routes>
     )
   }
