@@ -1,0 +1,13 @@
+// @for $i from 1 to 8 {
+//   $corrector: 100;
+//   $val: random($corrector);
+
+//   .random-position {
+//     &:nth-child(#{$i}) {
+//       top: random($val) + #{'%'};
+//       left: random($val) + #{'%'};
+//       right: random($val) + #{'%'};
+//       bottom: random($val) + #{'%'};
+//     }
+//   }
+// }
