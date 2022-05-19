@@ -31,33 +31,7 @@ function Layout({ children }) {
 
   return (
     <div className={classes.Layout}>
-      <div
-        className={`${classes.circle} ${classes.circle_xl} ${classes.random_position}`}
-      ></div>
-      <div
-        className={`${classes.circle} ${classes.circle_sm} ${classes.random_position}`}
-      ></div>
-      <div
-        className={`${classes.triangle} ${classes.triangle_sm} ${classes.random_position}`}
-      ></div>
-      <div
-        className={`${classes.circle} ${classes.circle_sm} ${classes.random_position}`}
-      ></div>
-      <div
-        className={`${classes.circle} ${classes.circle_xl} ${classes.random_position}`}
-      ></div>
-      <div
-        className={`${classes.ring} ${classes.ring_sm} ${classes.random_position}`}
-      ></div>
-      <div
-        className={`${classes.ring} ${classes.ring_sm} ${classes.random_position}`}
-      ></div>
-      <div
-        className={`${classes.triangle} ${classes.triangle_sm} ${classes.random_position}`}
-      ></div>
-
       {auth.isAuthenticated ? renderMenu() : null}
-
       <main>{children}</main>
     </div>
   )
