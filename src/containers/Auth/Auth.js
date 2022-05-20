@@ -74,9 +74,9 @@ const Auth = () => {
             enterDone: classes.welcome_enter_done,
             exit: 'my-exit',
             exitActive: classes.welcome_exit_active,
-            exitDone: 'my-done-exit',
+            exitDone: classes.welcome_exit_done,
           }}
-          onEntered={() => setState({ ...state, form: true })}
+          onEntered={() => setState({ ...state, welcome: false, form: true })}
         >
           <div ref={welcomeNodeRef} className={classes.AuthWelcome}>
             <h1>Welcome</h1>
@@ -90,8 +90,8 @@ const Auth = () => {
           in={state.form}
           appear
           timeout={{
-            appear: 500,
-            enter: 800,
+            appear: 800,
+            enter: 1000,
             exit: 200,
           }}
           classNames={{

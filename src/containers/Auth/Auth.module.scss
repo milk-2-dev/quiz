@@ -37,7 +37,7 @@
 
       .AuthContent {
         opacity: 1;
-        transition: opacity 800ms;
+        transition: opacity 1200ms;
       }
     }
   }
@@ -89,6 +89,9 @@
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
+  overflow: hidden;
+  width: 100%;
+  text-align: center;
 
   &.welcome_enter {
     opacity: 0;
@@ -99,6 +102,16 @@
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
     transition: opacity 700ms, transform 1000ms;
+  }
+
+  &.welcome_exit_active {
+    width: 1px;
+    background-color: #fff;
+    transition: background-color 600ms, width 200ms;
+  }
+
+  &.welcome_exit_done {
+    width: 0;
   }
 }
 
