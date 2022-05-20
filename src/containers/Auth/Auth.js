@@ -72,7 +72,7 @@ const Auth = () => {
             enter: classes.welcome_enter,
             enterActive: classes.welcome_enter_active,
             enterDone: classes.welcome_enter_done,
-            exit: 'my-exit',
+            exit: '',
             exitActive: classes.welcome_exit_active,
             exitDone: classes.welcome_exit_done,
           }}
