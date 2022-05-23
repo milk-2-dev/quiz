@@ -3,6 +3,7 @@ import MenuToggle from '../../components/Navigation/MenuToggle/MenuToggle'
 import Drawer from '../../components/Navigation/Drawer/Drawer'
 import { useSelector } from 'react-redux'
 import classes from './Layout.module.scss'
+import Logout from '../../components/Navigation/Logout/Logout'
 
 function Layout({ children }) {
   const [menu, setMenu] = useState(false)
@@ -25,6 +26,7 @@ function Layout({ children }) {
           isAuthenticated={auth.isAuthenticated}
         />
         <MenuToggle onToggle={toggleMenuHandler} isOpen={menu} />
+        <Logout />
       </React.Fragment>
     )
   }

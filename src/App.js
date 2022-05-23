@@ -4,7 +4,6 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Auth from './containers/Auth/Auth'
 import QuizList from './containers/QuizList/QuizList'
 import QuizCreator from './containers/QuizCreator/QuizCreator'
-import Logout from './components/Logout/Logout'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { autoLogin } from './features/auth/authSlice'
@@ -31,7 +30,6 @@ function App() {
         <Route path='/' element={<QuizList />} />
         <Route path='/quiz-creator' element={<QuizCreator />} />
         <Route path='/quiz/:id' element={<Quiz />} />
-        <Route path='/logout' element={<Logout />} />
         <Route path='/*' element={<Navigate to='/' replace />} />
       </Routes>
     )

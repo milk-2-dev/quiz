@@ -35,7 +35,6 @@ const Drawer = (props) => {
 
   if (props.isAuthenticated) {
     links.push({ to: '/quiz-creator', label: 'Create quiz', exact: false })
-    links.push({ to: '/logout', label: 'Quit', exact: false })
   } else {
     links.push({ to: '/auth', label: 'Authorization', exact: false })
   }
