@@ -1,163 +1,158 @@
 import React from 'react'
-import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import Input from '../../components/UI/Input/Input'
 import classes from './Auth.module.scss'
 import is from 'is_js'
 import Button from '../../components/UI/Button/Button'
 import { signUp } from '../../features/auth/authSlice'
+import { useFormFields } from '../../lib/hooksLib'
 
-const defaultState = {
-  isFormValid: false,
-  formControls: {
+const SignUpForm = () => {
+  const dispatch = useDispatch()
+  const [fields, handleFieldChange, handleValidationError] = useFormFields({
     email: {
       value: '',
-      type: 'email',
-      label: 'Email',
-      errorMessage: 'Please, enter correct email',
-      valid: false,
-      touched: false,
-      validation: {
-        required: true,
-        email: true,
-      },
+      errorMessage: null,
     },
     password: {
       value: '',
-      type: 'password',
-      label: 'Password',
-      errorMessage: 'Please, enter correct password (min length 6 chars)',
-      valid: false,
-      touched: false,
-      validation: {
-        required: true,
-        minLength: 6,
-      },
+      errorMessage: null,
     },
     confirmPassword: {
       value: '',
-      type: 'password',
-      label: 'Confirm the password',
-      errorMessage: 'Please, enter correct password',
-      valid: false,
-      touched: false,
-      validation: {
-        required: true,
-        minLength: 6,
-        confirm: true,
-        confirmValue: null,
-      },
+      errorMessage: null,
     },
-  },
-}
+  })
 
-const SignUpForm = () => {
-  const [state, setState] = useState(defaultState)
-  const dispatch = useDispatch()
+  function validateForm() {
+    let emailValidation = false
+    let passwordValidation = false
+    let confirmPasswordValidation = false
 
-  const onChangeHandler = (event, controlName) => {
-    const formControls = { ...state.formControls }
-    const control = { ...formControls[controlName] }
+    const errorData = []
 
-    control.value = event.target.value
-    control.valid = validateControl(control.value, control.validation)
-    control.touched = event.target.value.trim().length > 0
-
-    formControls[controlName] = control
-
-    let isFormValid = true
-
-    Object.keys(formControls).forEach((name) => {
-      isFormValid = formControls[name].valid && isFormValid
-    })
-
-    setState({ ...state, formControls, isFormValid })
-  }
-
-  const validateControl = (value, validation) => {
-    if (!validation) {
-      return true
+    if (fields.email.value.length > 0) {
+      if (is.email(fields.email.value)) {
+        emailValidation = true
+      } else {
+        errorData.push({
+          field: 'email',
+          message: `Must be an 'Email' format`,
+        })
+      }
+    } else {
+      // handleValidationError({ field: 'email', message: `Can't be an ampty` })
+      errorData.push({ field: 'email', message: `Can't be an ampty` })
     }
 
-    let isValid = true
-
-    if (validation.required) {
-      isValid = value.trim() !== '' && isValid
+    if (fields.password.value.length > 0) {
+      if (fields.password.value.length >= 6) {
+        passwordValidation = true
+      } else {
+        errorData.push({
+          field: 'password',
+          message: `Min length for the passwor is 6 chars`,
+        })
+      }
+    } else {
+      //handleValidationError({ field: 'password', message: `Can't be an ampty` })
+      errorData.push({ field: 'password', message: `Can't be an ampty` })
     }
 
-    if (validation.email) {
-      isValid = is.email(value) && isValid
+    if (fields.confirmPassword.value.length > 0) {
+      if (fields.confirmPassword.value === fields.password.value) {
+        confirmPasswordValidation = true
+      } else {
+        errorData.push({
+          field: 'confirmPassword',
+          message: `Confirm password mast be the same as password`,
+        })
+      }
+    } else {
+      //handleValidationError({ field: 'password', message: `Can't be an ampty` })
+      errorData.push({ field: 'confirmPassword', message: `Can't be an ampty` })
     }
 
-    if (validation.minLength) {
-      isValid = value.length >= validation.minLength && isValid
-    }
+    handleValidationError(errorData)
 
-    return isValid
-  }
+    const emailValidationResult = emailValidation !== false
+    const passwordValidationResult = passwordValidation !== false
+    const confirmpPsswordValidationResult = confirmPasswordValidation !== false
 
-  const onBlurHandler = (event, controlName) => {
-    const formControls = { ...state.formControls }
-    const control = { ...formControls[controlName] }
-
-    control.value = event.target.value
-    control.valid = validateControl(control.value, control.validation)
-
-    formControls[controlName] = control
-
-    setState({ ...state, formControls })
-  }
-
-  const renderInputs = () => {
-    return Object.keys(state.formControls).map((controlName, index) => {
-      const control = state.formControls[controlName]
-
-      return (
-        <Input
-          key={controlName + index}
-          type={control.type}
-          value={control.value}
-          valid={control.valid}
-          touched={control.touched}
-          placeholder={control.label}
-          errorMessage={control.errorMessage}
-          shouldValidate={!!control.validation}
-          onChange={(event) => {
-            onChangeHandler(event, controlName)
-          }}
-          onBlur={(event) => {
-            onBlurHandler(event, controlName)
-          }}
-        />
-      )
-    })
-  }
-
-  const registerHandler = async () => {
-    const authData = {
-      email: state.formControls.email.value,
-      password: state.formControls.password.value,
-      returnSecureToken: true,
-    }
-
-    dispatch(signUp(authData))
+    return (
+      emailValidationResult &&
+      passwordValidationResult &&
+      confirmpPsswordValidationResult
+    )
   }
 
   const submitHamdler = (event) => {
     event.preventDefault()
+    if (validateForm()) {
+      const authData = {
+        email: fields.email.value,
+        password: fields.password.value,
+        returnSecureToken: true,
+      }
+
+      dispatch(signUp(authData))
+    }
   }
 
   return (
     <div>
       <h1>Sign up</h1>
       <form onSubmit={submitHamdler} action='' className={classes.AuthForm}>
-        {renderInputs()}
+        <div className='form_group' size='lg'>
+          <input
+            className='form_control'
+            autoFocus
+            type='text'
+            placeholder='Email'
+            controlid='email'
+            value={fields.email.value}
+            onChange={handleFieldChange}
+          />
 
-        <Button
-          type='primary'
-          onClick={registerHandler}
-          disabled={!state.isFormValid}
-        >
+          {fields.email.errorMessage ? (
+            <div className='invalid_feedback'>{fields.email.errorMessage}</div>
+          ) : null}
+        </div>
+
+        <div className='form_group' size='lg'>
+          <input
+            className='form_control'
+            type='password'
+            placeholder='Password'
+            controlid='password'
+            value={fields.password.value}
+            onChange={handleFieldChange}
+          />
+
+          {fields.password.errorMessage ? (
+            <div className='invalid_feedback'>
+              {fields.password.errorMessage}
+            </div>
+          ) : null}
+        </div>
+
+        <div className='form_group' size='lg'>
+          <input
+            className='form_control'
+            type='password'
+            placeholder='Confirm password'
+            controlid='confirmPassword'
+            value={fields.confirmPassword.value}
+            onChange={handleFieldChange}
+          />
+
+          {fields.confirmPassword.errorMessage ? (
+            <div className='invalid_feedback'>
+              {fields.confirmPassword.errorMessage}
+            </div>
+          ) : null}
+        </div>
+
+        <Button styleType='primary' type='submit'>
           Sign up
         </Button>
       </form>
