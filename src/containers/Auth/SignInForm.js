@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import Input from '../../components/UI/Input/Input'
 import is from 'is_js'
 import Button from '../../components/UI/Button/Button'
 import { signIn } from '../../features/auth/authSlice'
