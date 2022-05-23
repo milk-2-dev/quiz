@@ -14,12 +14,14 @@ const setLocalStorageData = (data) => {
   localStorage.setItem('token', data.idToken)
   localStorage.setItem('userId', data.localId)
   localStorage.setItem('expirationDate', expirationDate)
+  localStorage.setItem('email', data.email)
 }
 
 const clearLocalStorageData = () => {
   localStorage.removeItem('token')
   localStorage.removeItem('userId')
   localStorage.removeItem('expirationDate')
+  localStorage.removeItem('email')
 }
 
 export const autoLogout = createAsyncThunk(
