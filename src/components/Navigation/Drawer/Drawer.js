@@ -33,10 +33,10 @@ const Drawer = (props) => {
 
   const links = [{ to: '/', label: 'Home', exact: true }]
 
-  if (props.isAuthenticated) {
+  const userMail = localStorage.getItem('email')
+
+  if (userMail === process.env.REACT_APP_ADMIN_EMAIL) {
     links.push({ to: '/quiz-creator', label: 'Create quiz', exact: false })
-  } else {
-    links.push({ to: '/auth', label: 'Authorization', exact: false })
   }
 
   return (
