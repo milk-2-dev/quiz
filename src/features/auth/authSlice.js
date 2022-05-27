@@ -4,6 +4,7 @@ import axios from 'axios'
 const API_KEY = process.env.REACT_APP_AUTH_API_KEY
 
 const initialState = {
+  authError: null,
   token: null,
   isAuthenticated: false,
 }
@@ -73,7 +74,11 @@ export const signIn = createAsyncThunk(
       dispatch(setToken(response.data.idToken))
       dispatch(autoLogout(response.data.expiresIn))
     } catch (error) {
-      console.log(error)
+      if (!error.response) {
+        throw error
+      }
+
+      return rejectWithValue(error.response.data)
     }
   }
 )
@@ -116,6 +121,17 @@ const authSlice = createSlice({
     clearToken: (state, action) => {
       state.token = null
       state.isAuthenticated = false
+    },
+  },
+  extraReducers: {
+    [signIn.pending]: (state, action) => {
+      // state.httpErr = action.payload
+    },
+    [signIn.fulfilled]: (state, action) => {
+      // state.httpErr = action.payload
+    },
+    [signIn.rejected]: (state, action) => {
+      state.authError = action.payload.error
     },
   },
 })

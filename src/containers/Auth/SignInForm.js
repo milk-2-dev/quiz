@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import is from 'is_js'
 import Button from '../../components/UI/Button/Button'
 import { signIn } from '../../features/auth/authSlice'
@@ -7,7 +7,12 @@ import classes from './Auth.module.scss'
 import { useFormFields } from '../../lib/hooksLib'
 
 const SignInForm = () => {
+  const authState = useSelector((state) => state.auth)
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    handleAuthError()
+  }, [authState.authError])
 
   const [fields, handleFieldChange, handleValidationError] = useFormFields({
     email: {
@@ -20,6 +25,26 @@ const SignInForm = () => {
     },
     confirmPassword: '',
   })
+
+  const handleAuthError = () => {
+    if (authState.authError) {
+      switch (authState.authError.message) {
+        case 'EMAIL_NOT_FOUND':
+          handleValidationError([
+            { field: 'email', message: `Can't find user with this email` },
+          ])
+          break
+        case 'INVALID_PASSWORD':
+          handleValidationError([
+            { field: 'password', message: `Invalid password` },
+          ])
+          break
+
+        default:
+          break
+      }
+    }
+  }
 
   function validateForm() {
     let emailValidation = false
@@ -71,7 +96,9 @@ const SignInForm = () => {
         returnSecureToken: true,
       }
 
-      dispatch(signIn(authData))
+      dispatch(signIn(authData)).catch((error) => {
+        console.log(error)
+      })
     }
   }
 
