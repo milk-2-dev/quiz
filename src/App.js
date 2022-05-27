@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { autoLogin } from './features/auth/authSlice'
 import './sassStyles/index.scss'
+import { isAdmin } from './utils/userUtils'
 
 function App() {
   const auth = useSelector((state) => state.auth)
@@ -28,7 +29,9 @@ function App() {
     routes = (
       <Routes>
         <Route path='/' element={<QuizList />} />
-        <Route path='/quiz-creator' element={<QuizCreator />} />
+        {isAdmin() ? (
+          <Route path='/quiz-creator' element={<QuizCreator />} />
+        ) : null}
         <Route path='/quiz/:id' element={<Quiz />} />
         <Route path='/*' element={<Navigate to='/' replace />} />
       </Routes>

@@ -2,6 +2,7 @@ import React from 'react'
 import classes from './Drawer.module.css'
 import Backdrop from '../../UI/Backdrop/Backdrop'
 import { NavLink } from 'react-router-dom'
+import { isAdmin } from '../../../utils/userUtils'
 
 const Drawer = (props) => {
   const clickHandler = () => {
@@ -33,9 +34,7 @@ const Drawer = (props) => {
 
   const links = [{ to: '/', label: 'Home', exact: true }]
 
-  const userMail = localStorage.getItem('email')
-
-  if (userMail === process.env.REACT_APP_ADMIN_EMAIL) {
+  if (isAdmin()) {
     links.push({ to: '/quiz-creator', label: 'Create quiz', exact: false })
   }
 
