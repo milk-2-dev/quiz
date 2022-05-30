@@ -17,7 +17,10 @@ const QuizList = () => {
     return quiz.quizes.map((quiz) => {
       return (
         <li key={quiz.id}>
-          <NavLink to={`/quiz/${quiz.id}`}>{quiz.name}</NavLink>
+          <NavLink to={`/quiz/${quiz.id}`}>
+            <h3>{quiz.quizName}</h3>
+            <span>{quiz.quizDescription}</span>
+          </NavLink>
         </li>
       )
     })
@@ -25,7 +28,7 @@ const QuizList = () => {
 
   return (
     <div className={classes.QuizList}>
-      <div>
+      <div className={classes.QuizListWrapper}>
         <h1>Quizes list</h1>
         {quiz.loading ? <Loading /> : <ul>{renderQuizes()}</ul>}
       </div>

@@ -6,6 +6,7 @@ import Input from '../../components/UI/Input/Input'
 import Select from '../../components/UI/Select/Select'
 import { useDispatch } from 'react-redux'
 import { createQuize } from '../../features/quiz/quizSlice'
+import { useFormFields } from '../../lib/hooksLib'
 
 const createOptionControl = (number) => {
   return createControl(
@@ -36,6 +37,9 @@ const createFormControls = () => {
 
 const defaultState = {
   correctAnswerId: 1,
+  // quizName: '',
+  // quizDescription: '',
+  quizQuestions: [],
   quiz: [],
   formControls: createFormControls(),
   isFormValid: false,
@@ -43,11 +47,26 @@ const defaultState = {
 
 const QuizCreator = () => {
   const [state, setState] = useState(defaultState)
+
+  // const [quizQuestions, setQuizQuestions] = useState(defaultState.quizQuestions)
+
+  const [fields, handleFieldChange, handleValidationError] = useFormFields({
+    quizName: {
+      value: '',
+      errorMessage: null,
+    },
+    quizDescription: {
+      value: '',
+      errorMessage: null,
+    },
+  })
+
   const dispatch = useDispatch()
 
   const addQuestionHandler = () => {
-    const quiz = state.quiz.concat()
-    const index = quiz.length + 1
+    // const quiz = state.quiz.concat()
+    const quiz = state.quizQuestions.concat()
+    const index = state.quizQuestions.length + 1
 
     const { question, option1, option2, option3, option4 } = state.formControls
 
@@ -80,6 +99,7 @@ const QuizCreator = () => {
     setState({
       ...state,
       quiz,
+      quizQuestions: quiz,
       isformValid: false,
       correctAnswerId: 1,
       formControls: createFormControls(),
@@ -87,8 +107,15 @@ const QuizCreator = () => {
   }
 
   const createQuizHandler = (event) => {
-    dispatch(createQuize(state.quiz)).then(() => {
-      setState({ ...state, quiz: [] })
+    // dispatch(createQuize(state.quiz)).then(() => {
+    const quizData = {
+      quizName: fields.quizName.value,
+      quizDescription: fields.quizDescription.value,
+      quizQuestions: state.quizQuestions,
+    }
+    dispatch(createQuize(quizData)).then(() => {
+      // setState({ ...state, quiz: [] })
+      setState({ ...state, quizQuestions: [] })
     })
   }
 
@@ -147,6 +174,40 @@ const QuizCreator = () => {
         <h1>Create new quiz</h1>
 
         <form onSubmit={submitHandler}>
+          <div className='form_group' size='lg'>
+            <label className='form_label'>Quiz name</label>
+            <input
+              className='form_control'
+              autoFocus
+              type='text'
+              placeholder='Quiz name'
+              controlid='quizName'
+              value={fields.quizName.value}
+              onChange={handleFieldChange}
+            />
+
+            {/* {fields.email.errorMessage ? (
+            <div className='invalid_feedback'>test</div>
+            ) : null} */}
+          </div>
+
+          <div className='form_group' size='lg'>
+            <label className='form_label'>Quiz description</label>
+            <textarea
+              className='form_control'
+              autoFocus
+              type='text'
+              placeholder='Quiz description'
+              controlid='quizDescription'
+              value={fields.quizDescription.value}
+              onChange={handleFieldChange}
+            ></textarea>
+
+            {/* {fields.email.errorMessage ? (
+            <div className='invalid_feedback'>test</div>
+            ) : null} */}
+          </div>
+
           {renderControls()}
 
           <Select
@@ -171,9 +232,9 @@ const QuizCreator = () => {
           <Button
             type='success'
             onClick={createQuizHandler}
-            disabled={state.quiz.length === 0}
+            disabled={state.quizQuestions.length === 0}
           >
-            Create question
+            Create quiz
           </Button>
         </form>
       </div>

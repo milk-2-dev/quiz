@@ -22,7 +22,8 @@ export const getQuizes = createAsyncThunk(
       Object.keys(response.data).forEach((key, index) => {
         fetchedQuizes.push({
           id: key,
-          name: `Quiz #${index + 1}`,
+          quizName: response.data[key].quizName,
+          quizDescription: response.data[key].quizDescription,
         })
       })
 
@@ -66,7 +67,7 @@ const quizSlice = createSlice({
       state.loading = false
     },
     setQuize(state, action) {
-      state.activeQuiz = action.payload
+      state.activeQuiz = action.payload.quizQuestions
       state.loading = false
     },
     setAnswer(state, action) {
