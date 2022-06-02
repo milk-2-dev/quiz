@@ -18,12 +18,12 @@ export const getQuizes = createAsyncThunk(
       const response = await axiosQuiz.get('quizes.json')
 
       const fetchedQuizes = []
-
       Object.keys(response.data).forEach((key, index) => {
         fetchedQuizes.push({
           id: key,
           quizName: response.data[key].quizName,
           quizDescription: response.data[key].quizDescription,
+          quizQuestionsCount: response.data[key].quizQuestions.length,
         })
       })
 
