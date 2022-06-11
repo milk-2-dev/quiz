@@ -4,7 +4,6 @@ import is from 'is_js'
 import Button from '../../components/UI/Button/Button'
 import classes from './Auth.module.scss'
 import { useFormFields } from '../../lib/hooksLib'
-import { setUser } from '../../store/slices/userSlice'
 import { signIn } from '../../store/slices/authSlice'
 
 const SignInForm = () => {

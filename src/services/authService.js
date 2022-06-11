@@ -23,11 +23,9 @@ const clearLocalStorageData = () => {
 const signUp = (email, password) => {
   return createUserWithEmailAndPassword(authFirebaseSDK, email, password).then(
     (response) => {
-      debugger
       if (response?._tokenResponse) {
         setLocalStorageData(response._tokenResponse)
       }
-
       return response
     }
   )
