@@ -7,7 +7,8 @@ import Logout from '../../components/Navigation/Logout/Logout'
 
 function Layout({ children }) {
   const [menu, setMenu] = useState(false)
-  const auth = useSelector((state) => state.auth)
+  // const auth = useSelector((state) => state.auth)
+  const auth = useSelector((state) => state.user)
 
   const toggleMenuHandler = () => {
     setMenu(!menu)

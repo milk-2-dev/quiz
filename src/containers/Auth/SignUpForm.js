@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import classes from './Auth.module.scss'
 import is from 'is_js'
 import Button from '../../components/UI/Button/Button'
-import { signUp } from '../../features/auth/authSlice'
+import { signUp } from '../../store/slices/authSlice'
 import { useFormFields } from '../../lib/hooksLib'
 
 const SignUpForm = () => {
@@ -91,7 +91,6 @@ const SignUpForm = () => {
       const authData = {
         email: fields.email.value,
         password: fields.password.value,
-        returnSecureToken: true,
       }
 
       dispatch(signUp(authData))

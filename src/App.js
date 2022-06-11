@@ -6,12 +6,13 @@ import QuizList from './containers/QuizList/QuizList'
 import QuizCreator from './containers/QuizCreator/QuizCreator'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { autoLogin } from './features/auth/authSlice'
+import { autoLogin } from './store/slices/authSlice'
 import './sassStyles/index.scss'
 import { isAdmin } from './utils/userUtils'
 
 function App() {
   const auth = useSelector((state) => state.auth)
+  // const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -25,7 +26,7 @@ function App() {
     </Routes>
   )
 
-  if (auth.isAuthenticated) {
+  if (auth.isAuth) {
     routes = (
       <Routes>
         <Route path='/' element={<QuizList />} />

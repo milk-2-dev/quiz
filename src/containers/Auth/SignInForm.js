@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import is from 'is_js'
 import Button from '../../components/UI/Button/Button'
-import { signIn } from '../../features/auth/authSlice'
 import classes from './Auth.module.scss'
 import { useFormFields } from '../../lib/hooksLib'
+import { setUser } from '../../store/slices/userSlice'
+import { signIn } from '../../store/slices/authSlice'
 
 const SignInForm = () => {
-  const authState = useSelector((state) => state.auth)
+  const auth = useSelector((state) => state.auth)
   const dispatch = useDispatch()
 
   useEffect(() => {
     handleAuthError()
-  }, [authState.authError])
+  }, [auth.authError])
 
   const [fields, handleFieldChange, handleValidationError] = useFormFields({
     email: {
@@ -23,18 +24,17 @@ const SignInForm = () => {
       value: '',
       errorMessage: null,
     },
-    confirmPassword: '',
   })
 
   const handleAuthError = () => {
-    if (authState.authError) {
-      switch (authState.authError.message) {
-        case 'EMAIL_NOT_FOUND':
+    if (auth.authError) {
+      switch (auth.authError.code) {
+        case 'auth/user-not-found':
           handleValidationError([
             { field: 'email', message: `Can't find user with this email` },
           ])
           break
-        case 'INVALID_PASSWORD':
+        case 'auth/wrong-password':
           handleValidationError([
             { field: 'password', message: `Invalid password` },
           ])
@@ -93,12 +93,9 @@ const SignInForm = () => {
       const authData = {
         email: fields.email.value,
         password: fields.password.value,
-        returnSecureToken: true,
       }
 
-      dispatch(signIn(authData)).catch((error) => {
-        console.log(error)
-      })
+      dispatch(signIn(authData))
     }
   }
 
