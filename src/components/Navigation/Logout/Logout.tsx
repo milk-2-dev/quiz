@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { Navigate } from 'react-router-dom'
+import { useAppDispatch } from '../../../hooks/redux'
 import { signOut } from '../../../store/slices/authSlice'
 import classes from './Logout.module.scss'
 
 const Logout = () => {
   const [isClicked, setIsClicked] = useState(false)
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const cls = [classes.LogoutButton, 'fas fa-sign-out-alt']
 
   const clickHandler = () => {

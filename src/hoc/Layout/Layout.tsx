@@ -1,36 +1,26 @@
-import React, { FC, ReactNode, useState } from 'react'
+import React, { FC, ReactNode } from 'react'
 import MenuToggle from '../../components/Navigation/MenuToggle/MenuToggle'
 import Drawer from '../../components/Navigation/Drawer/Drawer'
 import classes from './Layout.module.scss'
 import Logout from '../../components/Navigation/Logout/Logout'
 import { useAuth } from '../../hooks/useAuth'
+import { LayoutContextProvider } from '../../contexts/LayoutContextProvider'
 
-type layoutProps = {
+type LayoutProps = {
   children: ReactNode
 }
 
-const Layout: FC<layoutProps> = ({ children }) => {
+const Layout: FC<LayoutProps> = ({ children }) => {
   const { isAuth } = useAuth()
-  const [menu, setMenu] = useState(false)
-
-  const toggleMenuHandler = () => {
-    setMenu(!menu)
-  }
-
-  const onCloseHandler = () => {
-    setMenu(false)
-  }
 
   const renderMenu = () => {
     return (
       <React.Fragment>
-        <Drawer
-          isOpen={menu}
-          onClose={onCloseHandler}
-          // isAuthenticated={isAuth}
-        />
-        <MenuToggle onToggle={toggleMenuHandler} isOpen={menu} />
-        <Logout />
+        <LayoutContextProvider>
+          <Drawer />
+          <MenuToggle />
+          <Logout />
+        </LayoutContextProvider>
       </React.Fragment>
     )
   }
