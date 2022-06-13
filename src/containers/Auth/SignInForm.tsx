@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+// import { useDispatch, useSelector } from 'react-redux'
 import is from 'is_js'
 import Button from '../../components/UI/Button/Button'
 import classes from './Auth.module.scss'
 import { useFormFields } from '../../lib/hooksLib'
 import { signIn } from '../../store/slices/authSlice'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 
 const SignInForm = () => {
-  const auth = useSelector((state) => state.auth)
-  const dispatch = useDispatch()
+  const auth = useAppSelector((state) => state.auth)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     handleAuthError()
-  }, [auth.authError])
+  }, [auth.error])
 
   const [fields, handleFieldChange, handleValidationError] = useFormFields({
     email: {
@@ -26,8 +27,8 @@ const SignInForm = () => {
   })
 
   const handleAuthError = () => {
-    if (auth.authError) {
-      switch (auth.authError.code) {
+    if (auth.error) {
+      switch (auth.error.code) {
         case 'auth/user-not-found':
           handleValidationError([
             { field: 'email', message: `Can't find user with this email` },
@@ -103,14 +104,14 @@ const SignInForm = () => {
       <h1>Sign in</h1>
       <form onSubmit={submitHamdler} action='' className={classes.AuthForm}>
         {/* {renderInputs()} */}
-        <div className='form_group' size='lg'>
+        <div className='form_group' data-size='lg'>
           {/* <label className='Form.Label'>Email</label> */}
           <input
             className='form_control'
             autoFocus
             type='text'
             placeholder='Email'
-            controlid='email'
+            data-controlid='email'
             value={fields.email.value}
             onChange={handleFieldChange}
           />
@@ -120,13 +121,13 @@ const SignInForm = () => {
           ) : null}
         </div>
 
-        <div className='form_group' size='lg'>
+        <div className='form_group' data-size='lg'>
           {/* <label className='Form.Label'>Password</label> */}
           <input
             className='form_control'
             type='password'
             placeholder='Password'
-            controlid='password'
+            data-controlid='password'
             value={fields.password.value}
             onChange={handleFieldChange}
           />

@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
 import classes from './QuizList.module.css'
 import Loading from '../../components/UI/Loader/Loader'
 import { getQuizes } from '../../features/quiz/quizSlice'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 
 const QuizList = () => {
-  const quiz = useSelector((state) => state.quiz)
-  const dispatch = useDispatch()
+  const quiz = useAppSelector((state) => state.quiz)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(getQuizes())

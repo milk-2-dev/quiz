@@ -1,6 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axiosQuiz from '../../axios/axios-quiz'
 
+// interface IQuizState {
+//   quizes: []
+//   results: {}
+//   isFinished: boolean
+//   answerState: null
+//   activeQuestion: 0
+//   activeQuiz: []
+//   loading: true
+// }
+
 const initialState = {
   quizes: [],
   results: {},

@@ -6,7 +6,7 @@ export function useFormFields(initialState) {
   return [
     fields,
     function (event) {
-      const fieldName = event.target.getAttribute('controlid')
+      const fieldName = event.target.getAttribute('data-controlid')
       setValues({
         ...fields,
         [fieldName]: {

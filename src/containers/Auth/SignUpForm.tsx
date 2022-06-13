@@ -1,13 +1,19 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
 import classes from './Auth.module.scss'
 import is from 'is_js'
 import Button from '../../components/UI/Button/Button'
 import { signUp } from '../../store/slices/authSlice'
 import { useFormFields } from '../../lib/hooksLib'
+import { useAppDispatch } from '../../hooks/redux'
+
+declare namespace JSX {
+  interface ElementChildrenAttribute {
+    div: { size?: string }
+  }
+}
 
 const SignUpForm = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const [fields, handleFieldChange, handleValidationError] = useFormFields({
     email: {
       value: '',
@@ -101,13 +107,13 @@ const SignUpForm = () => {
     <div>
       <h1>Sign up</h1>
       <form onSubmit={submitHamdler} action='' className={classes.AuthForm}>
-        <div className='form_group' size='lg'>
+        <div className='form_group' data-size='lg'>
           <input
             className='form_control'
             autoFocus
             type='text'
             placeholder='Email'
-            controlid='email'
+            data-controlid='email'
             value={fields.email.value}
             onChange={handleFieldChange}
           />
@@ -116,13 +122,12 @@ const SignUpForm = () => {
             <div className='invalid_feedback'>{fields.email.errorMessage}</div>
           ) : null}
         </div>
-
-        <div className='form_group' size='lg'>
+        <div className='form_group' data-size='lg'>
           <input
             className='form_control'
             type='password'
             placeholder='Password'
-            controlid='password'
+            data-controlid='password'
             value={fields.password.value}
             onChange={handleFieldChange}
           />
@@ -133,13 +138,12 @@ const SignUpForm = () => {
             </div>
           ) : null}
         </div>
-
-        <div className='form_group' size='lg'>
+        <div className='form_group' data-size='lg'>
           <input
             className='form_control'
             type='password'
             placeholder='Confirm password'
-            controlid='confirmPassword'
+            data-controlid='confirmPassword'
             value={fields.confirmPassword.value}
             onChange={handleFieldChange}
           />
@@ -150,7 +154,6 @@ const SignUpForm = () => {
             </div>
           ) : null}
         </div>
-
         <Button styleType='primary' type='submit'>
           Sign up
         </Button>

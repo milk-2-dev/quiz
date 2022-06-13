@@ -42,7 +42,7 @@ const defaultState = {
   quizQuestions: [],
   quiz: [],
   formControls: createFormControls(),
-  isFormValid: false,
+  isformValid: false,
 }
 
 const QuizCreator = () => {
@@ -196,7 +196,6 @@ const QuizCreator = () => {
             <textarea
               className='form_control'
               autoFocus
-              type='text'
               placeholder='Quiz description'
               controlid='quizDescription'
               value={fields.quizDescription.value}

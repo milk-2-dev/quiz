@@ -1,14 +1,18 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import MenuToggle from '../../components/Navigation/MenuToggle/MenuToggle'
 import Drawer from '../../components/Navigation/Drawer/Drawer'
 import { useSelector } from 'react-redux'
 import classes from './Layout.module.scss'
 import Logout from '../../components/Navigation/Logout/Logout'
+import { useAuth } from '../../hooks/useAuth'
 
-function Layout({ children }) {
+type layoutProps = {
+  children: React.ReactNode
+}
+
+const Layout: React.FC<layoutProps> = ({ children }) => {
+  const { isAuth } = useAuth()
   const [menu, setMenu] = useState(false)
-  // const auth = useSelector((state) => state.auth)
-  const auth = useSelector((state) => state.user)
 
   const toggleMenuHandler = () => {
     setMenu(!menu)
@@ -24,7 +28,7 @@ function Layout({ children }) {
         <Drawer
           isOpen={menu}
           onClose={onCloseHandler}
-          isAuthenticated={auth.isAuthenticated}
+          // isAuthenticated={isAuth}
         />
         <MenuToggle onToggle={toggleMenuHandler} isOpen={menu} />
         <Logout />
@@ -34,7 +38,9 @@ function Layout({ children }) {
 
   return (
     <div className={classes.Layout}>
-      {auth.isAuthenticated ? renderMenu() : null}
+      {/* {renderMenu()}
+       */}
+      {isAuth ? renderMenu() : null}
       <main>{children}</main>
     </div>
   )

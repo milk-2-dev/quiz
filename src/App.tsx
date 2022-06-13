@@ -4,19 +4,27 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Auth from './containers/Auth/Auth'
 import QuizList from './containers/QuizList/QuizList'
 import QuizCreator from './containers/QuizCreator/QuizCreator'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch } from './hooks/redux'
 import { useEffect } from 'react'
-import { autoLogin } from './store/slices/authSlice'
+import { autoSingOut, setIsAuth } from './store/slices/authSlice'
 import './sassStyles/index.scss'
 import { isAdmin } from './utils/userUtils'
+import { useAuth } from './hooks/useAuth'
+import { firebaseObserver } from './firebase'
 
 function App() {
-  const auth = useSelector((state) => state.auth)
-  // const user = useSelector((state) => state.user)
-  const dispatch = useDispatch()
+  const { isAuth } = useAuth()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(autoLogin())
+    firebaseObserver.subscribe('authStateChanged', (isLoggedIn: boolean) => {
+      if (!isLoggedIn && isAuth) {
+        dispatch(autoSingOut())
+      }
+    })
+    return () => {
+      firebaseObserver.unsubscribe('authStateChanged')
+    }
   }, [])
 
   let routes = (
@@ -26,7 +34,7 @@ function App() {
     </Routes>
   )
 
-  if (auth.isAuth) {
+  if (isAuth) {
     routes = (
       <Routes>
         <Route path='/' element={<QuizList />} />
