@@ -5,17 +5,12 @@ import {
 } from 'firebase/auth'
 import { authFirebaseSDK } from '../firebase'
 
-const setLocalStorageData = (localId) => {
+const setLocalStorageData = (localId: string) => {
   localStorage.setItem('userId', localId)
 }
 
 const clearLocalStorageData = () => {
   localStorage.removeItem('userId')
-}
-
-interface IAuthData {
-  email: string
-  password: string
 }
 
 type authFunc = (email: string, password: string) => {}
@@ -26,7 +21,7 @@ const signUp: authFunc = (email, password) => {
   )
 }
 
-const signIn = (email, password) => {
+const signIn: authFunc = (email, password) => {
   return signInWithEmailAndPassword(authFirebaseSDK, email, password).then(
     (response) => setLocalStorageData(response.user.uid)
   )
