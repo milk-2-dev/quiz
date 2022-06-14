@@ -3,12 +3,9 @@ import authService from '../../services/authService'
 
 export const signIn = createAsyncThunk(
   'auth/signIn',
-  async (
-    { email, password }: { email: string; password: string },
-    thunkAPI
-  ) => {
+  ({ email, password }: { email: string; password: string }, thunkAPI) => {
     try {
-      await authService.signIn(email, password)
+      authService.signIn(email, password)
       thunkAPI.dispatch(setIsAuth(true))
     } catch (error) {
       thunkAPI.dispatch(

@@ -4,18 +4,18 @@ import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz'
 import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz'
 import { useParams } from 'react-router-dom'
 import Loading from '../../components/UI/Loader/Loader'
-import { useDispatch, useSelector } from 'react-redux'
-import { getQuizeById } from '../../features/quiz/quizSlice'
+import { getQuizeById } from '../../store/slices/quizSlice'
 import {
   setAnswer,
   finishQuiz,
   setNextQuestion,
   retryQuiz,
-} from '../../features/quiz/quizSlice'
+} from '../../store/slices/quizSlice'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 
 function Quiz() {
-  const quiz = useSelector((state) => state.quiz)
-  const dispatch = useDispatch()
+  const quiz = useAppSelector((state) => state.quiz)
+  const dispatch = useAppDispatch()
   const { id } = useParams()
 
   useEffect(() => {
@@ -25,7 +25,7 @@ function Quiz() {
     }
   }, [])
 
-  const onAnswerClick = (answerId) => {
+  const onAnswerClick = (answerId: number) => {
     if (quiz.answerState) {
       const key = Object.keys(quiz.answerState)[0]
 
