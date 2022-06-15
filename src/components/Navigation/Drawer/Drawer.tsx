@@ -38,7 +38,7 @@ const Drawer = () => {
 
   return (
     <React.Fragment>
-      <nav className={cls.join(' ')}>
+      <nav id={classes.mainNav} className={cls.join(' ')}>
         <ul>{renderLinks(links)}</ul>
       </nav>
 

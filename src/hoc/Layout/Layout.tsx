@@ -16,19 +16,21 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   const renderMenu = () => {
     return (
       <React.Fragment>
-        <LayoutContextProvider>
-          <Drawer />
+        <header id={classes.pageHeader}>
           <MenuToggle />
           <Logout />
-        </LayoutContextProvider>
+        </header>
+        <Drawer />
       </React.Fragment>
     )
   }
 
   return (
     <div className={classes.Layout}>
-      {isAuth ? renderMenu() : null}
-      <main>{children}</main>
+      <LayoutContextProvider>
+        {isAuth ? renderMenu() : null}
+        <main id={classes.mainContent}>{children}</main>
+      </LayoutContextProvider>
     </div>
   )
 }
