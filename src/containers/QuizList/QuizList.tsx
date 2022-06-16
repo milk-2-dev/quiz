@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import classes from './QuizList.module.css'
 import Loading from '../../components/UI/Loader/Loader'
-import { getQuizes } from '../../features/quiz/quizSlice'
+import { getQuizes } from '../../store/slices/quizSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 
 const QuizList = () => {

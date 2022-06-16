@@ -5,7 +5,7 @@ import { createControl, validate, validateForm } from '../../form/formFramework'
 import Input from '../../components/UI/Input/Input'
 import Select from '../../components/UI/Select/Select'
 import { useDispatch } from 'react-redux'
-import { createQuize } from '../../features/quiz/quizSlice'
+import { createQuize } from '../../store/slices/quizSlice'
 import { useFormFields } from '../../lib/hooksLib'
 
 const createOptionControl = (number) => {
@@ -37,8 +37,6 @@ const createFormControls = () => {
 
 const defaultState = {
   correctAnswerId: 1,
-  // quizName: '',
-  // quizDescription: '',
   quizQuestions: [],
   quiz: [],
   formControls: createFormControls(),
@@ -48,9 +46,7 @@ const defaultState = {
 const QuizCreator = () => {
   const [state, setState] = useState(defaultState)
 
-  // const [quizQuestions, setQuizQuestions] = useState(defaultState.quizQuestions)
-
-  const [fields, handleFieldChange, handleValidationError] = useFormFields({
+  const [fields, handleFieldChange] = useFormFields({
     quizName: {
       value: '',
       errorMessage: null,
@@ -64,7 +60,6 @@ const QuizCreator = () => {
   const dispatch = useDispatch()
 
   const addQuestionHandler = () => {
-    // const quiz = state.quiz.concat()
     const quiz = state.quizQuestions.concat()
     const index = state.quizQuestions.length + 1
 
@@ -107,14 +102,12 @@ const QuizCreator = () => {
   }
 
   const createQuizHandler = (event) => {
-    // dispatch(createQuize(state.quiz)).then(() => {
     const quizData = {
       quizName: fields.quizName.value,
       quizDescription: fields.quizDescription.value,
       quizQuestions: state.quizQuestions,
     }
     dispatch(createQuize(quizData)).then(() => {
-      // setState({ ...state, quiz: [] })
       setState({ ...state, quizQuestions: [] })
     })
   }

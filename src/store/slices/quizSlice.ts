@@ -15,7 +15,7 @@ type Results = Record<number, AnswerState> | {}
 type AnswerState = 'success' | 'error'
 
 type QuizListItem = {
-  id: number
+  id: string
   quizName: string
   quizDescription: string
   quizQuestionsCount: number
@@ -55,7 +55,7 @@ export const getQuizes = createAsyncThunk(
     try {
       const response = await axiosQuiz.get('quizes.json')
 
-      const fetchedQuizes = []
+      const fetchedQuizes: QuizListItem[] = []
       Object.keys(response.data).forEach((key, index) => {
         fetchedQuizes.push({
           id: key,
@@ -93,7 +93,7 @@ export const createQuize = createAsyncThunk(
   'quiz/createQuize',
   async (quizData, thunkAPI) => {
     try {
-      await axiosQuiz.post(`quizes.json`, quizData)
+      await axiosQuiz.post<QuizItem>(`quizes.json`, quizData)
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message)
     }
