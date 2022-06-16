@@ -6,17 +6,17 @@ import QuizList from './containers/QuizList/QuizList'
 import QuizCreator from './containers/QuizCreator/QuizCreator'
 import { useAppDispatch } from './hooks/redux'
 import { useEffect } from 'react'
-import { autoSingOut } from './store/slices/authSlice'
+import { autoSingIn, autoSingOut } from './store/slices/authSlice'
 import './sassStyles/index.scss'
-import { isAdmin } from './utils/userUtils'
 import { useAuth } from './hooks/useAuth'
 import { firebaseObserver } from './firebase'
 
 function App() {
-  const { isAuth } = useAuth()
+  const { isAuth, isAdmin } = useAuth()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
+    dispatch(autoSingIn())
     firebaseObserver.subscribe('authStateChanged', (isLoggedIn: boolean) => {
       if (!isLoggedIn && isAuth) {
         dispatch(autoSingOut())
@@ -38,7 +38,7 @@ function App() {
     routes = (
       <Routes>
         <Route path='/' element={<QuizList />} />
-        {isAdmin() ? (
+        {isAdmin ? (
           <Route path='/quiz-creator' element={<QuizCreator />} />
         ) : null}
         <Route path='/quiz/:id' element={<Quiz />} />

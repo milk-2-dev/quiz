@@ -1,9 +1,10 @@
 import { useAppSelector } from './redux'
 
 export function useAuth() {
-  const { isAuth } = useAppSelector((state) => state.auth)
+  const { isAuth, isAdmin } = useAppSelector((state) => state.auth)
 
   return {
     isAuth,
+    isAdmin,
   }
 }

@@ -2,10 +2,11 @@ import React from 'react'
 import classes from './Drawer.module.css'
 import Backdrop from '../../UI/Backdrop/Backdrop'
 import { NavLink } from 'react-router-dom'
-import { isAdmin } from '../../../utils/userUtils'
 import { useLayoutStateContext } from '../../../contexts/LayoutContextProvider'
+import { useAuth } from '../../../hooks/useAuth'
 
 const Drawer = () => {
+  const { isAdmin } = useAuth()
   const { activeMenu, closeMenuHandler } = useLayoutStateContext()
   const renderLinks = (links) => {
     return links.map((link, index) => {
@@ -32,7 +33,7 @@ const Drawer = () => {
 
   const links = [{ to: '/', label: 'Home', exact: true }]
 
-  if (isAdmin()) {
+  if (isAdmin) {
     links.push({ to: '/quiz-creator', label: 'Create quiz', exact: false })
   }
 
